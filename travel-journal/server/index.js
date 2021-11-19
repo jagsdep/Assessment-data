@@ -14,7 +14,7 @@ app.post('/seed', seed)
 // COUNTRIES
 app.get('/countries', getCountries)
 
-// CITIES
+//CITIES
 app.post('/cities', createCity)
 app.get('/cities', getCities)
 app.delete('/cities/:id', deleteCity)

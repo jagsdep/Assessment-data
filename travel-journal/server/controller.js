@@ -1,5 +1,5 @@
 require('dotenv').config();
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 
 const {CONNECTION_STRING} = process.env; 
 
@@ -238,6 +238,7 @@ module.exports = {
         .catch(err => console.log(err))
     },
     createCity: (req, res) => {
+        
         let{
             name,
             rating,
@@ -245,18 +246,20 @@ module.exports = {
           
         } = req.body
         sequelize.query(`
-        WHERE countries.country_id= ${countryId};
-     
-        INSERT INTO city (name, rating, country_id)
-        VALUES (${name}, ${rating}, ${countryId}`)
+        INSERT INTO cities (name, rating, country_id)
+        VALUES (${name}, ${rating}, ${countryId})`)
         .then (dbRes => res.status(200).send(dbRes[0]))
         .catch(err => console.log(err))
 
     },
     getCities: (req, res) => {
-        sequelize.query(`SELECT * FROM cities c
-        JOIN countries ct 
-        ON c.country_id = ct.country_id;`)
+        sequelize.query(`
+        SELECT 
+        t1.city_id, t1.name, t1.rating, t2.country_id, t2.name 
+        FROM cities t1
+        JOIN countries t2
+        ON t1.country_id = t2.country_id;
+        `)
         .then (dbRes => res.status(200).send(dbRes[0]))
         .catch(err => console.log(err))
 
